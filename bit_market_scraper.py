@@ -32,7 +32,9 @@ class BITScraper(SiteScraper):
         params['main_list'] = self.get_categories().index(category)
         params['sub_list'] = self.get_subcategories()
 
-        if service == 'Data':
+        if service == 'Detail':
+            params['service'] = service
+            params['extra'] = extra
 
         return self.get_page_html(params)
 
