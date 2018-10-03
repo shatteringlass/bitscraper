@@ -27,41 +27,70 @@ class SiteScraper(object):
 
 class BITScraper(SiteScraper):
 
-    def get_page(self, service, category, subcategory, extra=None):
-        params = {'target': 'null', 'service': 'Listino', 'lang': 'it'}
-        params['main_list'] = self.get_categories().index(category)
-        params['sub_list'] = self.get_subcategories()
+    def __init__(self):
+        super(SiteScraper, self).__init__(
+            url='http://borsaitaliana.it/borsa/listino-ufficiale')
+        self.mainpage = self.get_list_page()
+        self.avail_categories = self.get_categories()
+        self.avail_subcategories = self.get_categories()
 
-        if service == 'Detail':
-            params['service'] = service
-            params['extra'] = extra
+    @property
+    def category(self):
+        return self._category
 
-        return self.get_page_html(params)
+    @property
+    def subcategory(self):
+        return self._subcategory
+
+    @category.setter
+    def category(self, category):
+        pass
+
+    @subcategory.setter
+    def subcategory(self, subcategory):
+        pass
+
+    def get_list_page(self):
+        return self.get_page_html(params={'target': 'null', 'service': 'Listino', 'lang': 'it'})
+
+    def get_data_page():
+        if category and subcategory:
+            return self.get_page_html(params={'target': 'null', 'service': 'Data', 'lang': 'it', 'main_list': category, 'sub_list': subcategory})
+        else:
+            logger.error("Not enough parameters provided.")
+            raise ValueError
+
+    def get_detail_page():
+        if category and subcategory and prodcode:
+            return self.get_page_html(params={'target': 'null', 'service': 'Detail', 'lang': 'it', 'main_list': category, 'sub_list': subcategory, 'extra': prodcode})
+        else:
+            logger.error("Not enough parameters provided.")
+            raise ValueError
 
     def get_categories(self):
 
-        params = {'target': 'null', 'service': 'Listino', 'lang': 'it'}
         return [
             v.text for v in
-            self.get_page_html(params).select("select[name=main_list] option")
+            self.mainpage.select("select[name=main_list] option")
         ]
 
     def get_subcategories(self, category=None):
 
-        params = {'target': 'null', 'service': 'Listino', 'lang': 'it'}
-
         if category:
             try:
-                idx = self.get_categories().index(category) + 1
+                idx = self.avail_categories.index(category) + 1
             except ValueError:
                 logger.error("Category {} does not exist.".format(category))
                 raise
 
-        ctg = self.get_page_html(params).find_all('script')[1].text.translate(
+        sc = self.mainpage.find_all('script')[1].text.translate(
             {ord(c): None
-             for c in string.whitespace}).split(';')[idx]
+             for c in string.whitespace}).split(';')
+        if idx:
+            sc = sc[idx]
+
         rgx = 'level\d.*Array\((.+)\)'
 
         return tuple(
             map(lambda x: x.replace('\'', ''),
-                re.findall(rgx, ctg)[0].split(',')))
+                re.findall(rgx, sc)[0].split(',')))

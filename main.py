@@ -10,7 +10,7 @@ logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
 def main():
-    b = bms.BITScraper(url='http://borsaitaliana.it/borsa/listino-ufficiale')
+    b = bms.BITScraper()
     cat,subc = "Derivati", "Futuressuenergiaelettrica"
 
 
