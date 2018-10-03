@@ -9,8 +9,8 @@ class ProductListing(object):
 
 class BITListing(ProductListing):
 
-    def __init__(self, *args, **kwargs, category=None, subcategory=None):
-        super(ProductListing, self).__init__(*args, **kwargs)
+    def __init__(self, category=None, subcategory=None):
+        super(BITListing, self).__init__()
         self.category = category
         self.subcategory = subcategory
 
