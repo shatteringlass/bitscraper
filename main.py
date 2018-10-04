@@ -1,5 +1,4 @@
 import logging
-import bit_market_scraper as bms
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
@@ -10,10 +9,7 @@ logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
 def main():
-    b = bms.BITScraper()
-    cat,subc = "Derivati", "Futuressuenergiaelettrica"
-    b.category, b.subcategory = cat, subc
-    print(b.get_data_page() )
+	pass
 
 
 if __name__ == '__main__':
