@@ -109,17 +109,20 @@ class BITScraper(ProductScraper):
         sc = self.mainpage.find_all('script')[1].text.translate(
             {ord(c): None
              for c in string.whitespace}).split(';')[1:9]
-        if idx:
+        if idx != None:
             sc = [sc[idx]]
 
         rgx = 'level\d.*Array\((.+)\)'
         r = []
 
         for x in sc:
-            r.append(tuple(map(lambda x: x.replace('\'', ''),
+            r.append(list(map(lambda x: x.replace('\'', ''),
                                re.findall(rgx, x)[0].split(','))))
 
-        return r
+        if idx != None:
+            return r[0]
+        else:
+            return r
 
     def get_products(self, *args, **kwargs):
         category = kwargs.get('category')
