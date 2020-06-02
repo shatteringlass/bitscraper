@@ -98,7 +98,7 @@ class BITScraper(ProductScraper):
         idx = None
         if category:
             try:
-                idx = self.avail_categories.index(category) + 1
+                idx = self.avail_categories.index(category)
             except ValueError:
                 logger.error("Category {} does not exist.".format(category))
                 raise
@@ -107,7 +107,7 @@ class BITScraper(ProductScraper):
             {ord(c): None
              for c in string.whitespace}).split(';')[1:9]
         if idx:
-            sc = sc[idx]
+            sc = [sc[idx]]
 
         rgx = 'level\d.*Array\((.+)\)'
         r = []
