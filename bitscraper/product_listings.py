@@ -1,4 +1,4 @@
-from bit_market_scraper import BITScraper
+from .bit_market_scraper import BITScraper
 
 
 class ProductListing(object):

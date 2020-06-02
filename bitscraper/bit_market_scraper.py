@@ -62,8 +62,11 @@ class BITScraper(ProductScraper):
             logger.debug(
                 "Now retrieving products for category: {} - subcategory {}".format(category, subcategory))
             table = self.get_page_html(params={'target': 'null', 'service': 'Data', 'lang': 'it',
-                                               'main_list': c, 'sub_list': s}).select('center table:nth-of-type(2) tr a')
-            return tuple(map(lambda x: x.get('href').split('=')[-1], table))
+                                               'main_list': c, 'sub_list': s}).find('table', attrs={'bordercolordark': '#ffffff'}).find_all('tr')[1:]
+            items = []
+            for tr in table:
+                items.append(tr.find_all('td')[0].find('a'))
+            return tuple(map(lambda x: x.get('href').split('=')[-1], items))
         else:
             logger.error("Not enough parameters provided.")
             raise ValueError
@@ -71,11 +74,11 @@ class BITScraper(ProductScraper):
     def get_detail_page(self, category, subcategory, prodcode):
         if category and subcategory and prodcode:
             c = self.avail_categories.index(category)
-            s = self.avail_subcategories[c].index(subcategory) + 1
+            s = self.avail_subcategories[c].index(subcategory) +1
             logger.debug(
                 "Now retrieving info for product {} in category: {} - subcategory {}".format(prodcode, category, subcategory))
             table = self.get_page_html(params={'target': 'null', 'service': 'Detail', 'lang': 'it',
-                                               'main_list': c, 'sub_list': s, 'extra': prodcode}).select('table:nth-of-type(6)')[0]
+                                               'main_list': c, 'sub_list': s, 'extra': prodcode}).find('table', attrs={'bordercolordark': '#ffffff'})
             product = {'data_listino': self.date}
             for row in table.find_all('tr')[2:]:
                 k, v = tuple(map(lambda x: x.text, row.find_all('td')))
@@ -98,7 +101,7 @@ class BITScraper(ProductScraper):
         idx = None
         if category:
             try:
-                idx = self.avail_categories.index(category) + 1
+                idx = self.avail_categories.index(category)
             except ValueError:
                 logger.error("Category {} does not exist.".format(category))
                 raise
@@ -107,7 +110,7 @@ class BITScraper(ProductScraper):
             {ord(c): None
              for c in string.whitespace}).split(';')[1:9]
         if idx:
-            sc = sc[idx]
+            sc = [sc[idx]]
 
         rgx = 'level\d.*Array\((.+)\)'
         r = []

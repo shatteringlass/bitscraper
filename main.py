@@ -1,5 +1,5 @@
 import logging
-from product_listings import BITListing
+import bitscraper as bs
 import json
 
 logger = logging.getLogger()
@@ -12,7 +12,7 @@ logger.setLevel(logging.INFO)
 
 
 def main():
-    p = BITListing(category="Derivati",
+    p = bs.BITListing(category="Derivati",
                         subcategory="Futuressuenergiaelettrica").details
     print(json.dumps(p, sort_keys=False, indent=4))
 
