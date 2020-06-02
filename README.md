@@ -60,3 +60,46 @@ This is the product hierarchy as of today, October 3rd 2018:
 	- Titoli di Debito in euro
 	- Euro-obbligazioni
 	- ABS
+
+## Usage
+
+Import the library as usual
+
+```import bitscraper as bs```
+
+## Examples
+
+### Initialize scraper
+
+First you need to initialize the scraper
+
+```scraper = bs.BITScraper()```
+
+### Categories
+
+```scraper.get_categories()```
+
+### Sub-categories
+
+If you need all the subcategories:
+
+```scraper.get_subcategories()```
+
+If you need only the subcategories of a specific category
+
+```scraper.get_subcategories(category="Indici")```
+
+### Products
+
+You need to know both the category and the subcategory of the products you need.
+
+(Note: at the moment it works only with futures)
+
+```scraper.get_products(category="Derivati", subcategory="Futuressuenergiaelettrica")```
+
+A list of ids will be returned.
+
+To get the product details, just run the following script
+
+```scraper.get_details(category="Derivati", subcategory="Futuressuenergiaelettrica",products=["1152459"])```
+
