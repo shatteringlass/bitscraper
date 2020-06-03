@@ -11,11 +11,17 @@ logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 
-def main():
+def test_derivati():
     p = bs.BITListing(category="Derivati",
                         subcategory="Futuressuenergiaelettrica").details
     print(json.dumps(p, sort_keys=False, indent=4))
 
+def test_azioni():
+    p = bs.StockScraper().get_stock_info('TRIPADVISOR')
+    print(json.dumps(p, sort_keys=False, indent=4))
+
+def main():
+	test_azioni()
 
 if __name__ == '__main__':
     main()

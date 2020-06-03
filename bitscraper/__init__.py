@@ -24,5 +24,6 @@ __author__ = "Federico Pizzolo"
 
 from .product_listings import BITListing
 from .bit_market_scraper import BITScraper
+from .bit_market_scraper import StockScraper
 
 __all__ = ["BITListing","BITScraper"]
