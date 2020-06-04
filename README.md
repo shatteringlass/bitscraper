@@ -73,19 +73,31 @@ First you need to initialize the scraper
 ### Categories
 ```scraper.get_categories()```
 ### Sub-categories
-If you need all the subcategories:
-```scraper.get_subcategories()```
-If you need only the subcategories of a specific category
-```scraper.get_subcategories(category="Indici")```
+If you need all the subcategories:  
+
+```scraper.get_subcategories()```  
+
+If you need only the subcategories of a specific category  
+
+```scraper.get_subcategories(category="Indici")```  
+
 ### Derivatives
-You need to know both the category and the subcategory of the products you need.
-```scraper.get_products(category="Derivati", subcategory="Futuressuenergiaelettrica")```
+You need to know both the category and the subcategory of the products you need.  
+
+```scraper.get_products(category="Derivati", subcategory="Futuressuenergiaelettrica")```. 
+
 A list of ids will be returned.
-To get the product details, just run the following script
-```scraper.get_details(category="Derivati", subcategory="Futuressuenergiaelettrica",products=["1152459"])```
+To get the product details, just run the following script:  
+
+```scraper.get_details(category="Derivati", subcategory="Futuressuenergiaelettrica",products=["1152459"])```  
+
 ### Stocks
 Before getting a stock detail, you need to identify the stock name (at the moment is not possibile searching by ticker).
-The following script will return a list with all the stock names
-```bs.StockScraper().get_stocks_list()```
-Once identified the stock of interest, this script will return you the stock details
+The following script will return a list with all the stock names. 
+
+```bs.StockScraper().get_stocks_list()``` 
+
+Once identified the stock of interest, this script will return you the stock details  
+
 ```bs.StockScraper().get_stock_info('TRIPADVISOR')```
+
