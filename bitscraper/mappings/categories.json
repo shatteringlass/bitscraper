@@ -1,0 +1,276 @@
+[
+    {
+        "category_name": "Indici",
+        "category_id": 0,
+        "subcategories": [
+            {
+                "subcategory_name": "Indici Generali",
+                "subcategory_id": 1,
+                "active": false
+            },
+            {
+                "subcategory_name": "Indici Settoriali",
+                "subcategory_id": 2,
+                "active": false
+            },
+            {
+                "subcategory_name": "Indici Tah",
+                "subcategory_id": 3,
+                "active": false
+            }
+        ],
+        "active": false
+    },
+    {
+        "category_name": "Azionario",
+        "category_id": 1,
+        "subcategories": [
+            {
+                "subcategory_id": 1,
+                "subcategory_name": "Tutte le azioni",
+                "active": true
+            },
+            {
+                "subcategory_id": 2,
+                "subcategory_name": "Azioni MIB30",
+                "active": false
+            },
+            {
+                "subcategory_id": 3,
+                "subcategory_name": "Azioni Midex",
+                "active": false
+            },
+            {
+                "subcategory_id": 4,
+                "subcategory_name": "Azioni FTSE/MIB",
+                "active": false
+            },
+            {
+                "subcategory_id": 5,
+                "subcategory_name": "Blue Chip",
+                "active": false
+            },
+            {
+                "subcategory_id": 6,
+                "subcategory_name": "Standard 1",
+                "active": false
+            },
+            {
+                "subcategory_id": 7,
+                "subcategory_name": "Standard 2",
+                "active": false
+            },
+            {
+                "subcategory_id": 8,
+                "subcategory_name": "Mercato Expandi",
+                "active": false
+            },
+            {
+                "subcategory_id": 9,
+                "subcategory_name": "Warrant",
+                "active": false
+            },
+            {
+                "subcategory_id": 10,
+                "subcategory_name": "Obbligazioni Convertibili",
+                "active": false
+            },
+            {
+                "subcategory_id": 11,
+                "subcategory_name": "Obbligazioni Convertibili Expandi",
+                "active": false
+            },
+            {
+                "subcategory_id": 12,
+                "subcategory_name": "Diritti",
+                "active": false
+            },
+            {
+                "subcategory_id": 13,
+                "subcategory_name": "Diritti Expandi",
+                "active": false
+            },
+            {
+                "subcategory_id": 14,
+                "subcategory_name": "MTF3",
+                "active": false
+            },
+            {
+                "subcategory_id": 15,
+                "subcategory_name": "MTF4",
+                "active": false
+            },
+            {
+                "subcategory_id": 16,
+                "subcategory_name": "MTA International",
+                "active": false
+            },
+            {
+                "subcategory_id": 17,
+                "subcategory_name": "MIV-Inv Companies",
+                "active": false
+            },
+            {
+                "subcategory_id": 18,
+                "subcategory_name": "MIV-REIC",
+                "active": false
+            },
+            {
+                "subcategory_id": 19,
+                "subcategory_name": "MIV-Unit",
+                "active": false
+            },
+            {
+                "subcategory_id": 20,
+                "subcategory_name": "SIV-Segmento Professionale",
+                "active": false
+            },
+            {
+                "subcategory_id": 21,
+                "subcategory_name": "Segmento STAR",
+                "active": false
+            }
+        ],
+        "active": true
+    },
+    {
+        "category_name": "Securitised Derivatives",
+        "category_id": 2,
+        "subcategories": [
+            {
+                "subcategory_id": 1,
+                "subcategory_name": "CW e Certificates",
+                "active": false
+            },
+            {
+                "subcategory_id": 2,
+                "subcategory_name": "Ricerca",
+                "active": false
+            }
+        ],
+        "active": false
+    },
+    {
+        "category_name": "Derivati",
+        "category_id": 3,
+        "subcategories": [
+            {
+                "subcategory_id": 1,
+                "subcategory_name": "Futures su indici",
+                "active": false
+            },
+            {
+                "subcategory_id": 2,
+                "subcategory_name": "Futures su azioni",
+                "active": false
+            },
+            {
+                "subcategory_id": 3,
+                "subcategory_name": "Minifutures su indici",
+                "active": false
+            },
+            {
+                "subcategory_id": 4,
+                "subcategory_name": "Opzioni su indici",
+                "active": false
+            },
+            {
+                "subcategory_id": 5,
+                "subcategory_name": "Opzioni su azioni",
+                "active": false
+            },
+            {
+                "subcategory_id": 6,
+                "subcategory_name": "Futures su energia elettrica",
+                "active": true
+            },
+            {
+                "subcategory_id": 7,
+                "subcategory_name": "IDEM-Agrex",
+                "active": false
+            },
+            {
+                "subcategory_id": 8,
+                "subcategory_name": "Futures su dividendi azionari",
+                "active": false
+            }
+        ],
+        "active": false
+    },
+    {
+        "category_name": "Tah",
+        "category_id": 4,
+        "subcategories": [
+            {
+                "subcategory_id": 1,
+                "subcategory_name": "Azioni"
+            },
+            {
+                "subcategory_id": 2,
+                "subcategory_name": "Securitised Derivatives"
+            }
+        ],
+        "active": false
+    },
+    {
+        "category_name": "Fondi ed ETC-ETN",
+        "category_id": 5,
+        "subcategories": [
+            {
+                "subcategory_id": 1,
+                "subcategory_name": "MIV-Fondi Chiusi"
+            },
+            {
+                "subcategory_id": 2,
+                "subcategory_name": "ETF"
+            },
+            {
+                "subcategory_id": 3,
+                "subcategory_name": "ETC ed ETN"
+            },
+            {
+                "subcategory_id": 4,
+                "subcategory_name": "OICR Aperti"
+            }
+        ],
+        "active": false
+    },
+    {
+        "category_name": "Controvalori Totali",
+        "category_id": 6,
+        "subcategories": [
+            {
+                "subcategory_id": 1,
+                "subcategory_name": "Controvalori Diurno"
+            },
+            {
+                "subcategory_id": 2,
+                "subcategory_name": "Controvalori Serale"
+            }
+        ],
+        "active": false
+    },
+    {
+        "category_name": "MOT",
+        "category_id": 7,
+        "subcategories": [
+            {
+                "subcategory_id": 1,
+                "subcategory_name": "Titoli di Stato italiani"
+            },
+            {
+                "subcategory_id": 2,
+                "subcategory_name": "Titoli di Debito in euro"
+            },
+            {
+                "subcategory_id": 3,
+                "subcategory_name": "Euro-obbligazioni"
+            },
+            {
+                "subcategory_id": 4,
+                "subcategory_name": "ABS"
+            }
+        ],
+        "active": false
+    }
+]

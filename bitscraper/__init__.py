@@ -22,8 +22,6 @@
 __version__ = "0.1.0"
 __author__ = "Federico Pizzolo"
 
-from .product_listings import BITListing
-from .bit_market_scraper import BITScraper
-from .bit_market_scraper import StockScraper
+from .products import EnergyFuture, Stock
 
-__all__ = ["BITListing","BITScraper"]
+__all__ = ["EnergyFuture","Stock"]

@@ -66,12 +66,17 @@ This is the product hierarchy as of today, October 3rd 2018:
 Import the library as usual
 
 ```import bitscraper as bs```
+
 ## Examples
 ### Initialize scraper
 First you need to initialize the scraper
+
 ```scraper = bs.BITScraper()```
+
 ### Categories
+
 ```scraper.get_categories()```
+
 ### Sub-categories
 If you need all the subcategories:  
 

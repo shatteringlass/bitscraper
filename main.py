@@ -11,20 +11,36 @@ logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 
 
+def test_categorie():
+    pass
+
+
+def test_sottocategorie():
+    pass
+
+
+def test_prodotti():
+    pass
+
+
 def test_derivati():
-    p = bs.BITListing(category="Derivati",
-                        subcategory="Futuressuenergiaelettrica").details
+    p = bs.EnergyFuture().details
     print(json.dumps(p, sort_keys=False, indent=4))
+
 
 def test_azioni():
     p = bs.StockScraper().get_stock_info('TRIPADVISOR')
     print(json.dumps(p, sort_keys=False, indent=4))
+
+
 def test_all_stocks():
-	p = bs.StockScraper().get_stocks_list()
-	print(p)
+    p = bs.StockScraper().get_stocks_list()
+    print(p)
+
 
 def main():
-	test_all_stocks()
+    pass
+
 
 if __name__ == '__main__':
     main()
