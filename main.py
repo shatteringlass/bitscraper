@@ -19,9 +19,12 @@ def test_derivati():
 def test_azioni():
     p = bs.StockScraper().get_stock_info('TRIPADVISOR')
     print(json.dumps(p, sort_keys=False, indent=4))
+def test_all_stocks():
+	p = bs.StockScraper().get_stocks_list()
+	print(p)
 
 def main():
-	test_azioni()
+	test_all_stocks()
 
 if __name__ == '__main__':
     main()
