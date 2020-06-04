@@ -166,6 +166,8 @@ class StockScraper(ProductScraper):
         finally:
             return stocks
         
+    def get_stocks_list(self):
+        return list(self.stocks.keys())
 
     def get_stock_info(self, name):
         letter = name[0].upper()
