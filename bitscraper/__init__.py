@@ -22,6 +22,7 @@
 __version__ = "0.1.0"
 __author__ = "Federico Pizzolo"
 
-from .products import EnergyFuture, Stock
+from .base_scrapers import *
+from .scrapers import *
 
-__all__ = ["EnergyFuture","Stock"]
+__all__ = []
