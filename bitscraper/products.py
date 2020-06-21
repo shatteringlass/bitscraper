@@ -1,5 +1,5 @@
 from .scrapers import DetailScraper
-
+import json
 
 class BITProduct:
 
@@ -17,5 +17,57 @@ class EnergyFuture(BITProduct):
         return self._details
     
 
-class Stock(BITProduct):
-    pass
+class Stock:
+    def __init__(self, ticker):
+
+        with open('bitscraper/mappings/tickers.json', 'r') as f: #fix path
+            tickers_dict = json.load(f)
+
+        self._product = DetailScraper(category=1, subcategory=1, prodcode=tickers_dict[ticker]).get_detail_page()
+
+
+    @property
+    def product(self):
+        return self._product
+
+    @property
+    def name(self):
+        return self._product['denominazione']
+
+    @property
+    def isin(self):
+        return self._product['codice_isin']
+
+    @property
+    def min_price(self):
+        return float(self._product['prezzo_minimo'])
+
+    @property
+    def min_price_amount(self):
+        return float(self._product['quantità_prezzo_minimo'].replace(" ", ""))
+
+    @property
+    def max_price(self):
+        return float(self._product['prezzo_massimo'])
+
+    @property
+    def max_price_amount(self):
+        return float(self._product['quantità_prezzo_massimo'])
+
+    @property
+    def price(self):
+        return float(self._product['prezzo_ufficiale'])
+
+    @property
+    def last_change(self):
+        return float(self._product['var._%'])
+
+    @property
+    def shares(self):
+        return float(self._product['numero_di_azioni'].replace(" ", ""))
+
+    @property
+    def market_cap(self):
+        return self.shares * self.price       
+
+	#TODO dividends with new scraper (see issue #11) 

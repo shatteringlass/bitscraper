@@ -21,6 +21,18 @@ def test_azione(extra=180595):
     p = bs.StocksScraper(product=extra).product
     print(json.dumps(p, indent=4))
 
+def test_stock(extra='ENEL'):
+    s = bs.Stock(extra)
+    print(s.name)
+    print(s.min_price)
+    print(s.min_price_amount)
+    print(s.max_price)
+    print(s.max_price_amount)
+    print(s.price)
+    print(s.last_change)
+    print(s.shares)
+    print(s.market_cap)
+
 def test_derivati():
     pass
 
@@ -37,7 +49,8 @@ def test_all():
     # test_derivati()
     # test_azioni()
     # test_all_stocks()
-    test_azione()
+    # test_azione()
+    test_stock()
 
 
 if __name__ == '__main__':
