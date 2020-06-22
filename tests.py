@@ -32,6 +32,7 @@ def test_stock(extra='ENEL'):
     print(s.last_change)
     print(s.shares)
     print(s.market_cap)
+    print(s.dividends)
 
 def test_derivati():
     pass

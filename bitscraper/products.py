@@ -1,4 +1,5 @@
 from .scrapers import DetailScraper
+from .base_scrapers import DividendsScraper
 import json
 
 class BITProduct:
@@ -70,4 +71,6 @@ class Stock:
     def market_cap(self):
         return self.shares * self.price       
 
-	#TODO dividends with new scraper (see issue #11) 
+    @property
+    def dividends(self):
+        return DividendsScraper(isin=self.isin).get_dividends()
