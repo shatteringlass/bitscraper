@@ -41,6 +41,18 @@ class BITDividendsScraper(SiteScraper):
         super(BITDividendsScraper, self).__init__(
             url='https://borsaitaliana.it/borsa/quotazioni/azioni/elenco-completo-dividendi.html', params=params)
 
+class BITCalendarScraper(SiteScraper):
+
+    def __init__(self, params):
+
+        if params['type'] == 'events':
+            url = 'https://www.borsaitaliana.it/borsa/documents/events.html'
+        if params['type'] == 'dividends':
+            url = 'https://www.borsaitaliana.it/borsa/documents/dividends-mini.html'
+
+        super(BITCalendarScraper, self).__init__(
+            url=url, params=params)
+
 class CategoryScraper(BITScraper):
 
     def __init__(self):
@@ -173,3 +185,31 @@ class DividendsScraper(BITDividendsScraper):
             else:
                 dividends[year] = float(div_board.replace(',','.'))
         return dividends
+
+
+class CalendarScraper(BITCalendarScraper):
+
+    def __init__(self, type, dateFrom, dateTo):
+
+        self._type = type
+
+        params = {
+            'type': type,
+            'dateFrom': dateFrom,
+            'dateTo': dateTo,
+            'page': 1,
+            'lang': 'it',
+            'size': 500
+        }
+        super(CalendarScraper, self).__init__(params=params)
+
+    def get_list(self):
+        table = self.html.find('table', {'class': 'm-table -firstlevel'})
+
+        stocks = [x.text.strip('\n') for x in table.find_all('div', {'class': 'l-box -pb | l-screen -xs-15'})]
+        if self._type == 'dividends':
+            dates = [x.text.strip('\n') for x in  table.find_all('div', {'class': 'l-box | l-screen -xs-9'})]
+        if self._type == 'events':
+            dates = [x.text.strip('\n') for x in  table.find_all('div', {'class': 'l-box | l-screen -xs-11'})]
+
+        return list(zip(dates,stocks))

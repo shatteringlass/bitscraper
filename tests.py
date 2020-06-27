@@ -34,6 +34,15 @@ def test_stock(extra='ENEL'):
     print(s.market_cap)
     print(s.dividends)
 
+def test_dividends_calendar():
+    c = bs.Calendar(type='dividends')
+    print(c.result)
+
+def test_events_calendar():
+    c = bs.Calendar(type='events')
+    print(c.result)
+
+
 def test_derivati():
     pass
 
@@ -51,7 +60,9 @@ def test_all():
     # test_azioni()
     # test_all_stocks()
     # test_azione()
-    test_stock()
+    # test_stock()
+    test_dividends_calendar()
+    # test_events_calendar()
 
 
 if __name__ == '__main__':

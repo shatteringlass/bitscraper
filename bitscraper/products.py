@@ -1,6 +1,8 @@
 from .scrapers import DetailScraper
 from .base_scrapers import DividendsScraper
+from .base_scrapers import CalendarScraper
 import json
+from datetime import date
 
 class BITProduct:
 
@@ -69,8 +71,23 @@ class Stock:
 
     @property
     def market_cap(self):
-        return self.shares * self.price       
+        return self.shares * self.price
 
     @property
     def dividends(self):
         return DividendsScraper(isin=self.isin).get_dividends()
+
+
+class Calendar:
+    def __init__(self, type = 'dividends', dateFrom = date.today(), dateTo = ''):
+
+        if dateTo == '':
+        	split_date = str(dateFrom).split('-')
+        	next_year = int(str(date.today()).split('-')[0]) + 1
+        	dateTo = str(next_year) + '-' + split_date[1] + '-' + split_date[2]
+
+        self._result = CalendarScraper(type=type, dateFrom=dateFrom, dateTo=dateTo).get_list()
+
+    @property
+    def result(self):
+        return self._result
