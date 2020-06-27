@@ -1,6 +1,7 @@
 from .scrapers import DetailScraper
 from .base_scrapers import DividendsScraper
 from .base_scrapers import CalendarScraper
+from .base_scrapers import RatingScraper
 import json
 from datetime import date
 
@@ -76,6 +77,10 @@ class Stock:
     @property
     def dividends(self):
         return DividendsScraper(isin=self.isin).get_dividends()
+
+    @property
+    def rating(self):
+        return RatingScraper(isin=self.isin).get_ratings()
 
 
 class Calendar:

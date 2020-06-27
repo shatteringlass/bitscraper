@@ -53,6 +53,12 @@ class BITCalendarScraper(SiteScraper):
         super(BITCalendarScraper, self).__init__(
             url=url, params=params)
 
+class BITRatingScraper(SiteScraper):
+
+    def __init__(self, params):
+        super(BITRatingScraper, self).__init__(
+            url='https://www.borsaitaliana.it/borsa/quotazioni/azioni/rating.html', params=params)
+
 class CategoryScraper(BITScraper):
 
     def __init__(self):
@@ -185,6 +191,41 @@ class DividendsScraper(BITDividendsScraper):
             else:
                 dividends[year] = float(div_board.replace(',','.'))
         return dividends
+
+class RatingScraper(BITRatingScraper):
+
+    def __init__(self, isin):
+        params = {
+            'isin': isin,
+            'lang': 'it',
+        }
+        super(RatingScraper, self).__init__(params=params)
+
+    def get_ratings(self):
+        table = self.html.find('table', {'class': 'm-table -responsive -list -clear-m'})
+
+        thead = self.html.find('tr', {'class': '-xs -list'})
+
+        columns = []
+        for row in thead.find_all('th'):
+            v = row.text
+            columns.append(v.strip().replace(" ", "_").lower())
+
+        ratings = []
+        for row in table.find_all('tr', {'class' : '-list'})[1:]:
+            
+            rating = {}
+            isin, name, rating_type, rating_value, credit_watch, rating_outlook, rating_agency, rating_date, avviso_date, avviso = tuple(map(lambda x: x.text, row.find_all('td')))
+
+            rating['type'] = rating_type
+            rating['value'] = rating_value
+            rating['outlook'] = rating_outlook
+            rating['agency'] = rating_agency
+            rating['date'] = rating_date
+
+            ratings.append(rating)
+
+        return ratings
 
 
 class CalendarScraper(BITCalendarScraper):

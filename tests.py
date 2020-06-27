@@ -33,6 +33,7 @@ def test_stock(extra='ENEL'):
     print(s.shares)
     print(s.market_cap)
     print(s.dividends)
+    print(s.rating)
 
 def test_dividends_calendar():
     c = bs.Calendar(type='dividends')
@@ -60,8 +61,8 @@ def test_all():
     # test_azioni()
     # test_all_stocks()
     # test_azione()
-    # test_stock()
-    test_dividends_calendar()
+     test_stock()
+    # test_dividends_calendar()
     # test_events_calendar()
 
 
