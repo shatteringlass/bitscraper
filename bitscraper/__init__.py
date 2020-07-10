@@ -24,5 +24,6 @@ __author__ = "Federico Pizzolo"
 
 from .base_scrapers import *
 from .scrapers import *
+from .products import *
 
 __all__ = []

@@ -11,4 +11,3 @@ class StocksScraper:
 	@property
 	def product(self):
 		return self._product
-	

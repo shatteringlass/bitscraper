@@ -35,6 +35,30 @@ class BITScraper(SiteScraper):
             url='https://borsaitaliana.it/borsa/listino-ufficiale', params=params)
 
 
+class BITDividendsScraper(SiteScraper):
+
+    def __init__(self, params):
+        super(BITDividendsScraper, self).__init__(
+            url='https://borsaitaliana.it/borsa/quotazioni/azioni/elenco-completo-dividendi.html', params=params)
+
+class BITCalendarScraper(SiteScraper):
+
+    def __init__(self, params):
+
+        if params['type'] == 'events':
+            url = 'https://www.borsaitaliana.it/borsa/documents/events.html'
+        if params['type'] == 'dividends':
+            url = 'https://www.borsaitaliana.it/borsa/documents/dividends-mini.html'
+
+        super(BITCalendarScraper, self).__init__(
+            url=url, params=params)
+
+class BITRatingScraper(SiteScraper):
+
+    def __init__(self, params):
+        super(BITRatingScraper, self).__init__(
+            url='https://www.borsaitaliana.it/borsa/quotazioni/azioni/rating.html', params=params)
+
 class CategoryScraper(BITScraper):
 
     def __init__(self):
@@ -135,3 +159,98 @@ class DetailScraper(BITScraper):
                 {ord(c): '_' for c in string.whitespace}).lower()] = v.strip().translate(
                 {ord(c): None for c in string.whitespace})
         return product
+
+
+class DividendsScraper(BITDividendsScraper):
+
+    def __init__(self, isin):
+        params = {
+            'isin': isin,
+            'lang': 'it',
+            'page': 1,
+        }
+        super(DividendsScraper, self).__init__(params=params)
+
+    def get_dividends(self):
+        table = self.html.find('table', {'class': 'm-table -responsive -list -clear-m'})
+
+        thead = self.html.find('tr', {'class': '-xs -list'})
+
+        columns = []
+        for row in thead.find_all('th'):
+            v = row.text
+            columns.append(v.strip().replace(" ", "_").lower())
+
+        dividends = dict()
+        for row in table.find_all('tr', {'class' : '-list'})[1:]:
+            stock_type, div_board, div_sh_meeting, currency, date, pay_date, sh_meeting_date, avviso = tuple(map(lambda x: x.text, row.find_all('td')))
+            year = "20" + date.split("/")[2]
+
+            if year in dividends:
+                dividends[year] = dividends[year] + float(div_board.replace(',','.'))
+            else:
+                dividends[year] = float(div_board.replace(',','.'))
+        return dividends
+
+class RatingScraper(BITRatingScraper):
+
+    def __init__(self, isin):
+        params = {
+            'isin': isin,
+            'lang': 'it',
+        }
+        super(RatingScraper, self).__init__(params=params)
+
+    def get_ratings(self):
+        table = self.html.find('table', {'class': 'm-table -responsive -list -clear-m'})
+
+        thead = self.html.find('tr', {'class': '-xs -list'})
+
+        columns = []
+        for row in thead.find_all('th'):
+            v = row.text
+            columns.append(v.strip().replace(" ", "_").lower())
+
+        ratings = []
+        for row in table.find_all('tr', {'class' : '-list'})[1:]:
+            
+            rating = {}
+            isin, name, rating_type, rating_value, credit_watch, rating_outlook, rating_agency, rating_date, avviso_date, avviso = tuple(map(lambda x: x.text, row.find_all('td')))
+
+            rating['type'] = rating_type
+            rating['value'] = rating_value
+            rating['outlook'] = rating_outlook
+            rating['agency'] = rating_agency
+            rating['date'] = rating_date
+
+            ratings.append(rating)
+
+        return ratings
+
+
+class CalendarScraper(BITCalendarScraper):
+
+    def __init__(self, type, dateFrom, dateTo):
+
+        self._type = type
+
+        params = {
+            'type': type,
+            'dateFrom': dateFrom,
+            'dateTo': dateTo,
+            'page': 1,
+            'lang': 'it',
+            'size': 500
+        }
+        super(CalendarScraper, self).__init__(params=params)
+
+    def get_list(self):
+        table = self.html.find('table', {'class': 'm-table -firstlevel'})
+
+        stocks = [x.text.strip('\n') for x in table.find_all('div', {'class': 'l-box -pb | l-screen -xs-15'})]
+        if self._type == 'dividends':
+            dates = [x.text.strip('\n') for x in  table.find_all('div', {'class': 'l-box | l-screen -xs-9'})]
+        if self._type == 'events':
+            dates = [x.text.strip('\n') for x in  table.find_all('div', {'class': 'l-box | l-screen -xs-11'})]
+
+        return list(zip(dates,stocks))
