@@ -5,14 +5,13 @@ import requests
 from bs4 import BeautifulSoup as bs
 
 logger = logging.getLogger()
-"""
-handler = logging.StreamHandler()
+
+"""handler = logging.StreamHandler()
 formatter = logging.Formatter(
     '%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
-"""
+logger.setLevel(logging.DEBUG)"""
 
 
 class SiteScraper(object):
@@ -61,12 +60,19 @@ class BITScraper(ProductScraper):
             s = self.avail_subcategories[c].index(subcategory) + 1
             logger.debug(
                 "Now retrieving products for category: {} - subcategory {}".format(category, subcategory))
-            table = self.get_page_html(params={'target': 'null', 'service': 'Data', 'lang': 'it',
-                                               'main_list': c, 'sub_list': s}).find('table', attrs={'bordercolordark': '#ffffff'}).find_all('tr')[1:]
+            params = {'target': 'null',
+                      'service': 'Data',
+                      'lang': 'it',
+                      'main_list': c,
+                      'sub_list': s}
+            page = self.get_page_html(params=params)
+            table = page.find(
+                'table', attrs={'class': 'table_dati'}).find_all('tr')[3:]
             items = []
             for tr in table:
-                items.append(tr.find_all('td')[0].find('a'))
-            return tuple(map(lambda x: x.get('href').split('=')[-1], items))
+                item = tr.find('td').find('a').get('href').split('=')[-1]
+                items.append(item)
+            return items
         else:
             logger.error("Not enough parameters provided.")
             raise ValueError
@@ -74,11 +80,16 @@ class BITScraper(ProductScraper):
     def get_detail_page(self, category, subcategory, prodcode):
         if category and subcategory and prodcode:
             c = self.avail_categories.index(category)
-            s = self.avail_subcategories[c].index(subcategory) +1
+            s = self.avail_subcategories[c].index(subcategory) + 1
             logger.debug(
                 "Now retrieving info for product {} in category: {} - subcategory {}".format(prodcode, category, subcategory))
-            table = self.get_page_html(params={'target': 'null', 'service': 'Detail', 'lang': 'it',
-                                               'main_list': c, 'sub_list': s, 'extra': prodcode}).find('table', attrs={'bordercolordark': '#ffffff'})
+            page = self.get_page_html(params={'target': 'null',
+                                              'service': 'Detail',
+                                              'lang': 'it',
+                                              'main_list': c,
+                                              'sub_list': s,
+                                              'extra': prodcode})
+            table = page.find('table', attrs={'class': 'table_dati'})
             product = {'data_listino': self.date}
             for row in table.find_all('tr')[2:]:
                 k, v = tuple(map(lambda x: x.text, row.find_all('td')))
