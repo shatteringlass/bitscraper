@@ -5,6 +5,7 @@ from .base_scrapers import RatingScraper
 import json
 from datetime import date
 
+
 class BITProduct:
 
     FIELDS = []
@@ -14,21 +15,22 @@ class BITProduct:
 class EnergyFuture(BITProduct):
 
     def __init__(self, product):
-        self._details = DetailScraper(category=3, subcategory=7, prodcode=product).get_details()
+        self._details = DetailScraper(
+            category=3, subcategory=7, prodcode=product).get_details()
 
     @property
     def details(self):
         return self._details
-    
+
 
 class Stock:
     def __init__(self, ticker):
 
-        with open('bitscraper/mappings/tickers.json', 'r') as f: #fix path
+        with open('bitscraper/mappings/tickers.json', 'r') as f:  # fix path
             tickers_dict = json.load(f)
 
-        self._product = DetailScraper(category=1, subcategory=1, prodcode=tickers_dict[ticker]).get_detail_page()
-
+        self._product = DetailScraper(
+            category=1, subcategory=1, prodcode=tickers_dict[ticker]).get_detail_page()
 
     @property
     def product(self):
@@ -82,16 +84,31 @@ class Stock:
     def rating(self):
         return RatingScraper(isin=self.isin).get_ratings()
 
+    def __str__(self):
+        attrs = ["name",
+                 "min_price",
+                 "min_price_amount",
+                 "max_price",
+                 "max_price_amount",
+                 "price",
+                 "last_change",
+                 "shares",
+                 "market_cap",
+                 "dividends",
+                 "rating"]
+        return "\n".join([f"{a}: {self.__getattribute__(a)}" for a in attrs])
+
 
 class Calendar:
-    def __init__(self, type = 'dividends', dateFrom = date.today(), dateTo = ''):
+    def __init__(self, type='dividends', date_from=date.today(), date_to=''):
 
-        if dateTo == '':
-        	split_date = str(dateFrom).split('-')
-        	next_year = int(str(date.today()).split('-')[0]) + 1
-        	dateTo = str(next_year) + '-' + split_date[1] + '-' + split_date[2]
+        if date_to == '':
+            split_date = str(date_from).split('-')
+            next_year = int(str(date.today()).split('-')[0]) + 1
+            date_to = str(next_year) + '-' + split_date[1] + '-' + split_date[2]
 
-        self._result = CalendarScraper(type=type, dateFrom=dateFrom, dateTo=dateTo).get_list()
+        self._result = CalendarScraper(
+            type=type, date_from=date_from, date_to=date_to).get_list()
 
     @property
     def result(self):

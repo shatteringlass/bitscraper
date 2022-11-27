@@ -23,17 +23,7 @@ def test_azione(extra=180595):
 
 def test_stock(extra='ENEL'):
     s = bs.Stock(extra)
-    print(s.name)
-    print(s.min_price)
-    print(s.min_price_amount)
-    print(s.max_price)
-    print(s.max_price_amount)
-    print(s.price)
-    print(s.last_change)
-    print(s.shares)
-    print(s.market_cap)
-    print(s.dividends)
-    print(s.rating)
+    print(s)
 
 def test_dividends_calendar():
     c = bs.Calendar(type='dividends')
@@ -61,9 +51,9 @@ def test_all():
     # test_azioni()
     # test_all_stocks()
     # test_azione()
-     test_stock()
-    # test_dividends_calendar()
-    # test_events_calendar()
+    # test_stock()
+    test_dividends_calendar()
+    test_events_calendar()
 
 
 if __name__ == '__main__':

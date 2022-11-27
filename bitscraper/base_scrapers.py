@@ -25,7 +25,7 @@ class SiteScraper(object):
     def get_page_html(self):
         response = requests.get(self.baseurl, self.params)
         response.encoding = 'utf8'
-        return bs(response.text, 'html.parser')
+        return bs(response.text, 'lxml')
 
 
 class BITScraper(SiteScraper):
@@ -114,7 +114,7 @@ class ListingScraper(BITScraper):
         extras = dict()
         try:
             links = self.html.find(
-                'table', attrs={'bordercolordark': '#ffffff'}).find_all('a')
+                'table', attrs={'class': 'table_dati'}).find_all('a')
             for l in links:
                 extras[l.text] = get_extra(l.get('href'))
         finally:
@@ -151,7 +151,7 @@ class DetailScraper(BITScraper):
         super(DetailScraper, self).__init__(params=params)
 
     def get_detail_page(self):
-        table = self.html.find('table', attrs={'bordercolordark': '#ffffff'})
+        table = self.html.find('table', attrs={'class': 'table_dati'})
         product = dict()
         for row in table.find_all('tr')[2:]:
             k, v = tuple(map(lambda x: x.text, row.find_all('td')))
@@ -173,7 +173,6 @@ class DividendsScraper(BITDividendsScraper):
 
     def get_dividends(self):
         table = self.html.find('table', {'class': 'm-table -responsive -list -clear-m'})
-
         thead = self.html.find('tr', {'class': '-xs -list'})
 
         columns = []
@@ -202,6 +201,9 @@ class RatingScraper(BITRatingScraper):
         super(RatingScraper, self).__init__(params=params)
 
     def get_ratings(self):
+        # Ratings are no longer provided as of 2022/11/27, this method returns an empty list
+        return []
+        """
         table = self.html.find('table', {'class': 'm-table -responsive -list -clear-m'})
 
         thead = self.html.find('tr', {'class': '-xs -list'})
@@ -226,18 +228,19 @@ class RatingScraper(BITRatingScraper):
             ratings.append(rating)
 
         return ratings
+        """
 
 
 class CalendarScraper(BITCalendarScraper):
 
-    def __init__(self, type, dateFrom, dateTo):
+    def __init__(self, type, date_from, date_to):
 
         self._type = type
 
         params = {
             'type': type,
-            'dateFrom': dateFrom,
-            'dateTo': dateTo,
+            'dateFrom': date_from,
+            'dateTo': date_to,
             'page': 1,
             'lang': 'it',
             'size': 500
